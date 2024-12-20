@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GastroScope AI</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    /* Root Variables */
+    :root {
+      --bg-color: #ffffff; /* Content Background */
+      --text-color: #1a1a2e;
+      --primary-color: #0095c8; /* Sky Blue Color */
+      --accent-color: #f4a261; /* Warm Accent Color */
+      --hover-color: #006d8e; /* Darker Hover Color */
+      --card-bg: #f5f5f5;
+      --border-radius: 30px; /* Consistent Border Radius */
+    }
+
+    /* Reset and Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text-color);
+      overflow-x: hidden;
+      background-color: var(--bg-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+      background: var(--primary-color);
+      padding: 1rem 2.5rem;
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 5rem);
+      border-radius: var(--border-radius);
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-brand {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--text-color);
+      text-decoration: none;
+      font-family: 'Bebas Neue', cursive;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-link {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      background-color: rgba(255, 255, 255, 0.1);
+      margin: 0 5px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      background-color: var(--hover-color);
+      color: #fff;
+    }
+
+    /* Background Image Section */
+    .background-image {
+      position: relative;
+      width: calc(100% - 4rem);
+      height: 100vh; /* Full screen height */
+      background: url('../static/images/bg_image.jpg') no-repeat center center/cover;
+      border-radius: var(--border-radius);
+      margin: 2rem auto;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .background-image::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3); /* Overlay on the background image only */
+      border-radius: var(--border-radius);
+    }
+
+    .content-container {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+      padding: 0 5%;
+      z-index: 10;
+    }
+
+    .hero-content {
+      flex: 1;
+      color: #fff;
+    }
+
+    .hero-content h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid var(--accent-color);
+      animation: typing 3s steps(30, end), blink 0.75s step-end infinite;
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      max-width: 600px;
+    }
+
+    /* Form Section Styles */
+    .form-section {
+      background-color: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      width: 400px;
+    }
+
+    .form-section h2 {
+      color: var(--accent-color);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      background-color: #f9f9f9;
+      color: var(--text-color);
+    }
+
+    .btn {
+      background: var(--accent-color);
+      color: var(--text-color);
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      text-align: center;
+      width: 100%;
+      font-weight: bold;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #d63851;
+      transform: translateY(-3px);
+    }
+
+    .register-link {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+
+    .register-link a {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer {
+      background: var(--primary-color);
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+      border-radius: var(--border-radius);
+    }
+
+    /* Responsive Design with Media Queries */
+    @media (max-width: 768px) {
+      .content-container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .form-section {
+        width: calc(100% - 4rem);
+        margin-top: 2rem;
+      }
+
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+
+      .hero-content p {
+        font-size: 1rem;
+      }
+    }
+
+    /* Animations */
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      from, to { border-color: transparent; }
+      50% { border-color: var(--accent-color); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Image Section -->
+  <div class="background-image" style="background-image: url('https://images.pexels.com/photos/534219/pexels-photo-534219.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); background-size: 100% 100vh; background-repeat: no-repeat;">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="container navbar-content">
+        <a href="#" class="navbar-brand" data-value="#form1" onclick="toggleform(event)">GastroScope AI</a>
+        <ul class="nav-links">
+          <li><a href="#form1" class="nav-link" data-value="#form1" onclick="toggleform(event)">Login</a></li>
+          <li><a href="#form2" class="nav-link" data-value="#form2" onclick="toggleform(event)">Register</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hero Section and Forms -->
+    <div class="content-container">
+      <div class="hero-content">
+        <h1>Welcome to GI Disease Detector <br>and Classifier</h1>
+        <p>Revolutionizing gastrointestinal health with advanced AI-powered detection technology.</p>
+      </div>
+
+      <!-- Login Form -->
+      <section id="form1" class="form-section active">
+        <h2>User Login</h2>
+        <form method="post" action="{{ url_for('userlog') }}">
+          {% if msg %}
+          <div class="alert alert-warning alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Warning!</strong> {{msg}}
+          </div>
+          {% endif %}
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter username" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
+          </div>
+          <button type="submit" class="btn btn-default">Login</button>
+          <p>Don't have an account? <a data-value="#form2" onclick="toggleform(event)">Register Now</a></p>
+        </form>
+      </section>
+
+      <!-- Registration Form -->
+      <section id="form2" class="form-section">
+        <h2>User Registration</h2>
+        <form method="post" action="{{ url_for('userreg') }}">
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter username" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Mobile No.:</label>
+            <input type="tel" class="form-control" id="phone" placeholder="Enter mobile number" name="phone" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
+          </div>
+          <button type="submit" class="btn btn-default">Register</button>
+          <p>Already have an account? <a data-value="#form1" onclick="toggleform(event)">Sign in</a></p>
+        </form>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    function toggleform(e) {
+      var Id = e.target.getAttribute('data-value');
+      let Items = ['#form1', '#form2'];
+      Items.map(function(item) {
+        if (Id === item) {
+          document.querySelector(item).classList.add("active");
+        } else {
+          document.querySelector(item).classList.remove("active");
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>

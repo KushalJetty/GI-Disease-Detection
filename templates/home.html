@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to GastroScope AI</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #f0f8ff;
+      --text-color: #1a1a2e;
+      --primary-color: #0095c8;
+      --accent-color: #f4a261;
+      --hover-color: #006d8e;
+      --card-bg: #ffffff;
+      --border-radius: 20px;
+      --overlay-color: rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text-color);
+      background: url('https://images.pexels.com/photos/534219/pexels-photo-534219.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center center/cover;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--overlay-color);
+      z-index: -1;
+    }
+
+    .navbar {
+      background: var(--primary-color);
+      padding: 1rem 2.5rem;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 5rem);
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+
+    .navbar-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-brand {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Bebas Neue', cursive;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-link {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      margin: 0 5px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      background-color: var(--hover-color);
+      color: #fff;
+    }
+
+    .hero-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      color: #fff;
+    }
+
+    .hero-content {
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .hero-content h1 {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid var(--accent-color);
+      animation: typing 4s steps(40, end), blink 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from {
+        width: 0;
+      }
+      to {
+        width: 100%;
+      }
+    }
+
+    @keyframes blink {
+      from, to {
+        border-color: transparent;
+      }
+      50% {
+        border-color: var(--accent-color);
+      }
+    }
+
+    .hero-content p {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #d68751;
+      transform: scale(1.05);
+    }
+
+    footer {
+      background: var(--primary-color);
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 3rem;
+      border-radius: var(--border-radius);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="/" class="navbar-brand">GastroScope AI</a>
+      <ul class="nav-links">
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="/features" class="nav-link"> Features</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1>Welcome to GastroScope AI</h1>
+      <p>Revolutionizing gastrointestinal health with advanced AI-powered detection technology.</p>
+      <div class="hero-buttons">
+        <a href="/userlog" class="btn">Get Started</a>
+        <a href="/about" class="btn">About Us</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 GastroScope AI. All rights reserved.</p>
+  </footer>
+</body>
+</html>
