@@ -14,7 +14,7 @@
       --accent-color: #f4a261;
       --hover-color: #006d8e;
       --card-bg: #f5f5f5;
-      --result-bg: #e6f7ff; /* Light Blue for Main Result Tab */
+      --result-bg: #e6f7ff;
       --border-radius: 30px;
     }
 
@@ -70,44 +70,18 @@
       background: var(--hover-color);
     }
 
-    .background-image {
-      width: calc(100% - 4rem);
-      height: auto;
-      background: url('bg_image.jpg') no-repeat center center/cover;
-      border-radius: var(--border-radius);
-      margin: 2rem auto;
-      position: relative;
-      padding: 3rem;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .background-image::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.3);
-      border-radius: var(--border-radius);
-      z-index: 0;
-    }
-
-    .content-container {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      padding: 2rem;
-    }
-
     .results-container {
       display: flex;
       flex-wrap: wrap;
       gap: 2rem;
       justify-content: center;
+      margin: 2rem 0;
     }
 
-    .result-card {
+    .result-card,
+    .result-main,
+    .class-probabilities-card,
+    .graph-display-card {
       background-color: var(--card-bg);
       padding: 1.5rem;
       border-radius: var(--border-radius);
@@ -115,49 +89,44 @@
       text-align: center;
       flex: 1 1 calc(30% - 1rem);
       max-width: 300px;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .result-card:hover {
+    .result-main {
+      flex: 1 1 calc(50% - 1rem);
+      max-width: 600px;
+      background-color: var(--result-bg);
+    }
+
+    .result-card:hover,
+    .class-probabilities-card:hover,
+    .graph-display-card:hover {
       transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     }
 
-    .result-card h2 {
-      color: var(--accent-color);
-      margin-bottom: 1rem;
-    }
-
-    .result-card img {
+    .result-card img,
+    .graph-display-card img {
       width: 100%;
       border-radius: var(--border-radius);
       margin-bottom: 1rem;
     }
 
-    .result-main {
-      background-color: var(--result-bg);
-      color: var(--text-color);
-      padding: 2rem;
-      border-radius: var(--border-radius);
+    .class-probabilities table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .class-probabilities th,
+    .class-probabilities td {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
       text-align: center;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-      flex: 1 1 calc(50% - 1rem);
-      max-width: 600px;
-      transition: transform 0.3s ease;
     }
 
-    .result-main:hover {
-      transform: translateY(-10px);
-    }
-
-    .result-main h2 {
-      margin-bottom: 1rem;
-      color: var(--accent-color);
-      font-size: 2rem;
-    }
-
-    .result-main p {
-      margin: 0.5rem 0;
-      font-size: 1.2rem;
+    .class-probabilities th {
+      background-color: var(--primary-color);
+      color: #fff;
     }
 
     footer {
@@ -175,7 +144,9 @@
       }
 
       .result-card,
-      .result-main {
+      .result-main,
+      .class-probabilities-card,
+      .graph-display-card {
         max-width: 100%;
       }
     }
@@ -191,79 +162,74 @@
     </ul>
   </nav>
 
-  <div class="background-image">
-    <div class="content-container">
-      <div class="results-container">
-        <div class="result-card">
-          <h2>Selected Image</h2>
-          {% if (ImageDisplay) %}
-          <img src="{{ImageDisplay}}" alt="Selected Image">
-          {% endif %}
-        </div>
-        <div class="result-card">
-          <h2>Gray</h2>
-          {% if (ImageDisplay1) %}
-          <img src="{{ImageDisplay1}}" alt="Gray Image">
-          {% endif %}
-        </div>
-        <div class="result-card">
-          <h2>Edge Detection</h2>
-          {% if (ImageDisplay2) %}
-          <img src="{{ImageDisplay2}}" alt="Edge Detection">
-          {% endif %}
-        </div>
-        <div class="result-card">
-          <h2>Thresholding</h2>
-          {% if (ImageDisplay3) %}
-          <img src="{{ImageDisplay3}}" alt="Thresholding">
-          {% endif %}
-        </div>
-        <div class="result-card">
-          <h2>Image Sharpening</h2>
-          {% if (ImageDisplay4) %}
-          <img src="{{ImageDisplay4}}" alt="Sharpened Image">
-          {% endif %}
-        </div>
-        <div class="result-main">
-          <h2>Result</h2>
-          {% if (status) %}
-          <p><b>Status:</b> {{status}}</p>
-          <p><b>Accuracy:</b> {{accuracy}}</p>
-          <p><b>Treatment:</b></p>
-          <ul>
-            {% for Treatment in Treatment1 %}
-            <li>{{Treatment}}</li>
+  <div class="results-container">
+    <!-- Selected Image -->
+    <div class="result-card">
+      <h2>Selected Image</h2>
+      {% if (ImageDisplay) %}
+      <img src="{{ImageDisplay}}" alt="Selected Image">
+      {% endif %}
+    </div>
+
+    <!-- RGB Matrix -->
+    <div class="result-card">
+      <h2>RGB Matrix</h2>
+      <pre>{{ rgb_matrix }}</pre>
+    </div>
+
+    <!-- Normalization Matrix -->
+    <div class="result-card">
+      <h2>Normalization Matrix</h2>
+      <pre>{{ normalization_matrix }}</pre>
+    </div>
+
+    <!-- Class Probabilities -->
+    <div class="class-probabilities-card">
+      <h2>Class Probabilities</h2>
+      <div class="class-probabilities">
+        <table>
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>Probability</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for class_name, prob in class_probabilities %}
+            <tr>
+              <td>{{ class_name }}</td>
+              <td>{{ prob | round(4) }}</td>
+            </tr>
             {% endfor %}
-          </ul>
-          {% endif %}
-        </div>
+          </tbody>
+        </table>
       </div>
+    </div>
+
+    <!-- Result -->
+    <div class="result-main">
+      <h2>Result</h2>
+      {% if (status) %}
+      <p><b>Status:</b> {{status}}</p>
+      <p><b>Accuracy:</b> {{accuracy}}</p>
+      <p><b>Treatment:</b></p>
+      <ul>
+        {% for Treatment in Treatment1 %}
+        <li>{{Treatment}}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+
+    <!-- Graph -->
+    <div class="graph-display-card">
+      <h2>Class Probability Graph</h2>
+      <img src="{{ GraphDisplay }}" alt="Class Probability Graph">
     </div>
   </div>
 
   <footer>
     <p>&copy; 2024 GI Disease Detector. All rights reserved.</p>
   </footer>
-  
-  <script>
-    // Add an event listener to the button for PDF download
-    document.getElementById('download-pdf').addEventListener('click', function() {
-      // Select the element containing the HTML content to be converted
-      const element = document.getElementById('content');
-
-      // Use html2pdf library to convert the element to PDF and specify filename
-      html2pdf()
-        .from(element)
-        .set({
-          filename: 'downloaded.pdf', // Specify filename here
-          pagebreak: { mode: 'avoid-all' }, // Avoid page breaks inside elements
-          margin: [10, 10], // Specify margins [top, right, bottom, left]
-          html2canvas: { scale: 2 }, // Scale factor for HTML to canvas conversion
-          jsPDF: { format: 'a4', orientation: 'portrait' } // Page size and orientation
-        })
-        .save();
-    });
-  </script>
 </body>
-
 </html>

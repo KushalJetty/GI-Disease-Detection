@@ -1,6 +1,7 @@
 import os
 import cv2
 import numpy as np
+import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
@@ -22,15 +23,17 @@ import shutil
 app = Flask(__name__)
 
 # Load your trained model
-model = load_model('./models/100epwithearlystopping.h5')
-
-# Load class names from pickle file
-with open('class_names.pkl', 'rb') as f:
-    class_names = pickle.load(f)
+model = load_model('model_path')
+# Dataset path
+dataset_path='dataset_path'
+# Load class names 
+class_names = sorted(os.listdir(dataset_path)) 
+# Background image
+bg_img = "image_url"
 
 @app.route('/')
 def index():
-    return render_template('home.html')
+    return render_template('home.html',bg_img=bg_img)
 
 @app.route('/about')
 def about():
@@ -106,30 +109,21 @@ def image():
         
         file_path = os.path.join(dirPath, uploaded_file.filename)
         uploaded_file.save(file_path)
-
-        # Preprocessing images
+        
+        # RGB Matrix
         image = cv2.imread(file_path)
-        gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        cv2.imwrite('static/gray.jpg', gray_image)
+        rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        rgb_matrix = rgb_image.tolist()  # Convert to list for rendering in HTML
 
-        edges = cv2.Canny(image, 250, 254)
-        cv2.imwrite('static/edges.jpg', edges)
-
-        _, threshold2 = cv2.threshold(gray_image, 128, 255, cv2.THRESH_BINARY)
-        cv2.imwrite('static/threshold.jpg', threshold2)
-
-        kernel_sharpening = np.array([[-1, -1, -1],
-                                      [-1, 9, -1],
-                                      [-1, -1, -1]])
-        sharpened = cv2.filter2D(image, -1, kernel_sharpening)
-        cv2.imwrite('static/sharpened.jpg', sharpened)
+        # Normalize the RGB matrix
+        normalization_matrix = (rgb_image / 255.0).tolist()  # Normalize and convert to list
 
         # Preprocess for model input
         def preprocess_input_image(path):
             img = load_img(path, target_size=(224, 224))
             img_array = img_to_array(img)
             img_array = np.expand_dims(img_array, axis=0)
-            # img_array /= 255.0  # Normalize the image
+            img_array /= 255.0  # Normalize the image
             return img_array
 
         # Prediction
@@ -146,56 +140,56 @@ def image():
         # Map predicted class to labels and treatment
         Tre = ""
         Tre1 = []
-        if predicted_class == "Dyed Lifted Polyps":
+        if predicted_class == "dyed-lifted-polyps":
             Tre = "Medical Treatment"
             Tre1 = [
                 "Polyp Removal: Undergo endoscopic resection if the polyp poses a risk.",
                 "Post-Procedure Care: Follow the doctor's advice regarding diet and medications.",
                 "Regular Screening: Schedule follow-up endoscopies to monitor for recurrence or new polyps."
             ]
-        elif predicted_class == "Normal Z-line":
+        elif predicted_class == "normal-z-line":
             Tre = "No Treatment Needed"
             Tre1 = [
                 "Healthy Lifestyle: Maintain a balanced diet to support overall digestive health.",
                 "Routine Check-ups: Continue regular screenings as per your healthcare provider's advice.",
                 "Stay Hydrated: Drink adequate water to maintain a healthy gastrointestinal tract."
             ]
-        elif predicted_class == "Polyps":
+        elif predicted_class == "polyps":
             Tre = "Medical Treatment"
             Tre1 = [
                 "Endoscopic Removal: Remove polyps via colonoscopy to prevent potential malignancy.",
                 "Lifestyle Adjustments: Avoid smoking, maintain a high-fiber diet, and reduce alcohol consumption.",
                 "Periodic Monitoring: Schedule regular check-ups to detect new or recurring polyps early."
             ]
-        elif predicted_class == "Dyed Resection Margins":
+        elif predicted_class == "dyed-resection-margins":
             Tre = "Medical Treatment"
             Tre1 = [
                 "Post-Surgical Care: Follow prescribed antibiotics and pain relievers as needed.",
                 "Healing Monitoring: Schedule follow-ups to ensure proper healing of resection sites.",
                 "Lifestyle Guidance: Maintain a diet low in irritants to support gastrointestinal recovery."
             ]
-        elif predicted_class == "Ulcerative Colitis":
+        elif predicted_class == "ulcerative-colitis":
             Tre = "Medical Treatment"
             Tre1 = [
                 "Medication: Use anti-inflammatory drugs or immunosuppressants as prescribed.",
                 "Dietary Adjustments: Follow a low-residue or anti-inflammatory diet to manage symptoms.",
                 "Regular Monitoring: Attend follow-ups for symptom management and to prevent complications."
             ]
-        elif predicted_class == "Esophagitis":
+        elif predicted_class == "esophagitis":
             Tre = "Medical Treatment"
             Tre1 = [
                 "Medication: Use antacids, proton pump inhibitors, or other prescribed medications.",
                 "Dietary Changes: Avoid acidic, spicy, or hot foods to reduce irritation.",
                 "Lifestyle Adjustments: Stop smoking, avoid alcohol, and elevate the head while sleeping."
             ]
-        elif predicted_class == "Normal Cecum":
+        elif predicted_class == "normal-cecum":
             Tre = "No Treatment Needed"
             Tre1 = [
                 "Routine Monitoring: Maintain regular health screenings as recommended.",
                 "Healthy Eating: Focus on a balanced diet rich in fiber for optimal colon health.",
                 "Stay Active: Engage in regular physical activity to promote gastrointestinal well-being."
             ]
-        elif predicted_class == "Normal Pylorus":
+        elif predicted_class == "normal-pylorus":
             Tre = "No Treatment Needed"
             Tre1 = [
                 "Maintain Nutrition: Continue with a balanced diet and proper hydration.",
@@ -206,7 +200,35 @@ def image():
         # Prepare results
         accuracy = f"The predicted image is {predicted_class} with a confidence of {confidence:.2%}"
 
+        input_image = preprocess_input_image(file_path)
+        logits = model.predict(input_image)
+
+        # Apply softmax to get probabilities
+        softmax_values = tf.nn.softmax(logits[0]).numpy()
+
+        # Get the predicted class
+        predicted_class = class_names[np.argmax(softmax_values)]
+
+        # Prepare class probabilities for display
+        class_probabilities = [
+            (class_name, float(prob))
+            for class_name, prob in zip(class_names, softmax_values)
+        ]
+        
+        # Generate a bar graph for class probabilities
+        graph_path = os.path.join(dirPath, 'class_probabilities.png')
+        plt.figure(figsize=(10, 5))
+        plt.bar(class_names, softmax_values, color='skyblue')
+        plt.title('Class Probabilities')
+        plt.xlabel('Classes')
+        plt.ylabel('Probability')
+        plt.xticks(rotation=45)
+        plt.ylim(0, 1)
+        plt.tight_layout()
+        plt.savefig(graph_path)  # Save the graph in static/images
+        plt.close()
         # Render results
+         # Render results
         return render_template(
             'results.html',
             status=predicted_class,
@@ -214,12 +236,12 @@ def image():
             Treatment=Tre,
             Treatment1=Tre1,
             ImageDisplay=f"http://127.0.0.1:5000/static/images/{uploaded_file.filename}",
-            ImageDisplay1="http://127.0.0.1:5000/static/gray.jpg",
-            ImageDisplay2="http://127.0.0.1:5000/static/edges.jpg",
-            ImageDisplay3="http://127.0.0.1:5000/static/threshold.jpg",
-            ImageDisplay4="http://127.0.0.1:5000/static/sharpened.jpg"
+            GraphDisplay=url_for('static', filename='images/class_probabilities.png'),
+            predicted_class=predicted_class,
+            class_probabilities=class_probabilities,
+            rgb_matrix=rgb_matrix,
+            normalization_matrix=normalization_matrix
         )
-
     return render_template('userlog.html')
 
 if __name__ == "__main__":

@@ -1,118 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Features of GI Disease Detection</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-            padding: 20px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1, h2 {
-            color: #0056b3;
-        }
-        ul {
-            margin: 10px 0;
-            padding: 0;
-            list-style: none;
-        }
-        ul li {
-            background: #e7f3ff;
-            margin: 10px 0;
-            padding: 15px;
-            border-left: 5px solid #0056b3;
-            display: flex;
-            align-items: center;
-        }
-        ul li img {
-            width: 100px;
-            height: auto;
-            margin-right: 15px;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GastroScope AI - Features</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    /* Root Variables */
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #1a1a2e;
+      --primary-color: #0095c8;
+      --accent-color: #f4a261;
+      --hover-color: #006d8e;
+      --card-bg: #f5f5f5;
+      --border-radius: 30px;
+    }
+
+    /* Reset and Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text-color);
+      overflow-x: hidden;
+      background-color: var(--bg-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+      background: var(--primary-color);
+      padding: 1rem 2.5rem;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 5rem);
+      border-radius: var(--border-radius);
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-brand {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--text-color);
+      text-decoration: none;
+      font-family: 'Bebas Neue', cursive;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-link {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      background-color: rgba(255, 255, 255, 0.1);
+      margin: 0 5px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      background-color: var(--hover-color);
+      color: #fff;
+    }
+
+    /* Background Image Section */
+    .background-image {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background: url('https://images.pexels.com/photos/534219/pexels-photo-534219.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center center/cover;
+      padding: 100px 2rem 2rem;
+    }
+
+    .background-image::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3);
+      z-index: 0;
+    }
+
+    .content-container {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      padding-top: 80px;
+    }
+
+    /* Feature Section Styles */
+    .feature-section {
+      background-color: var(--card-bg);
+      padding: 3rem;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 1800px;
+      text-align: left;
+    }
+
+    .feature-section h1, .feature-section h2 {
+      color: var(--accent-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-section p {
+      margin-bottom: 1rem;
+    }
+
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 1rem;
+      border-radius: var(--border-radius);
+    }
+
+    .feature-item img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      margin-right: 1rem;
+      border-radius: 10px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar {
+        width: calc(100% - 2rem);
+        padding: 1rem;
+      }
+
+      .feature-section {
+        padding: 2rem;
+      }
+
+      .feature-item {
+        flex-direction: column;
+      }
+
+      .feature-item img {
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
+  <div class="background-image">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-content">
+        <a href="#" class="navbar-brand">
+          GastroScope AI
+        </a>
+        <ul class="nav-links">
+          <li><a href="/logout" class="nav-link">Logout</a></li>
+          <li><a href="graph.html" class="nav-link">Graph</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Content Container -->
+    <div class="content-container">
+      <section class="feature-section">
         <h1>Features of Gastrointestinal Disease Detection System</h1>
         <p>The GI disease detection system classifies endoscopic images into eight classes. Each class represents a unique condition or finding within the gastrointestinal tract. Detailed below are the classes with their descriptions and sample images to enhance understanding.</p>
 
         <h2>Classes and Their Features</h2>
-        <ul>
-            <li>
-                <img src="{{ url_for('static', filename='images/dyed-lifted-polyps (1).jpg') }}" alt="Dyed-Lifted Polyps">
-                <div>
-                    <strong>Dyed-Lifted Polyps:</strong>
-                    <p>Endoscopic findings where polyps are highlighted using a dye for better visibility. These are often a precursor to more detailed diagnostic procedures or surgical interventions.</p>
-                </div>
-            </li>
-            <li>
-                <img src="{{ url_for('static', filename='images/dyed-resection-margins (1).jpg') }}" alt="Dyed-Resection Margins">
-                <div>
-                    <strong>Dyed-Resection Margins:</strong>
-                    <p>Highlights the edges of resected areas to ensure complete removal of abnormal tissues. This technique helps prevent recurrence of abnormal growths.</p>
-                </div>
-            </li>
-            <li>
-                <img src="{{ url_for('static', filename='images/dyed-resection-margins (1).jpg') }}" alt="Esophagitis">
-                <div>
-                    <strong>Esophagitis:</strong>
-                    <p>Inflammation of the esophagus, characterized by redness or irritation seen in endoscopic images. It may result from acid reflux, infections, or allergies.</p>
-                </div>
-            </li>
-            <li>
-                <img src="{{ url_for('static', filename='images/dyed-resection-margins (6).jpg') }}" alt="Normal Cecum">
-                <div>
-                    <strong>Normal Cecum:</strong>
-                    <p>Represents normal findings in the cecum, the beginning of the large intestine. Observations ensure no abnormalities such as polyps or inflammation are present.</p>
-                </div>
-            </li>
-            <li>
-                <img src="{{ url_for('static', filename='images/Normal Pylorus (1).jpg') }}" alt="Normal Pylorus">
-                <div>
-                    <strong>Normal Pylorus:</strong>
-                    <p>Depicts a normal pyloric region, which is the opening from the stomach into the duodenum. A healthy pylorus ensures proper digestion and prevents reflux.</p>
-                </div>
-            </li>
-            <li>
-                <img src="{{ url_for('static', filename='images/normal-z-line (1).jpg') }}" alt="Normal Z-Line">
-                <div>
-                    <strong>Normal Z-Line:</strong>
-                    <p>Shows the transition between the esophagus and stomach with no abnormalities. This junction is critical in identifying issues like Barrett's esophagus.</p>
-                </div>
-            </li>
-            <li>
-                <img src="{{ url_for('static', filename='images/ulcerative-colitis (1).jpg') }}" alt="Polyps">
-                <div>
-                    <strong>Polyps:</strong>
-                    <p>Abnormal growths within the GI tract that may require further evaluation or removal. Some polyps are benign, while others can be precancerous.</p>
-                </div>
-            </li>
-            <li>
-                <img src="{{ url_for('static', filename='images/esophagitis (6).jpg') }}" alt="Ulcerative Colitis">
-                <div>
-                    <strong>Ulcerative Colitis:</strong>
-                    <p>Chronic inflammation of the colon, often visible as ulcers or irregularities in the lining. It can lead to symptoms like abdominal pain and diarrhea.</p>
-                </div>
-            </li>
+        <ul class="feature-list">
+          <li class="feature-item">
+            <img src="/images/dyed-lifted-polyps.jpg" alt="Dyed-Lifted Polyps">
+            <div>
+              <strong>Dyed-Lifted Polyps:</strong>
+              <p>Endoscopic findings where polyps are highlighted using a dye for better visibility. These are often a precursor to more detailed diagnostic procedures or surgical interventions.</p>
+            </div>
+          </li>
+          <li class="feature-item">
+            <img src="/images/dyed-resection-margins.jpg" alt="Dyed-Resection Margins">
+            <div>
+              <strong>Dyed-Resection Margins:</strong>
+              <p>Highlights the edges of resected areas to ensure complete removal of abnormal tissues. This technique helps prevent recurrence of abnormal growths.</p>
+            </div>
+          </li>
+          <li class="feature-item">
+            <img src="/images/esophagitis.jpg" alt="Esophagitis">
+            <div>
+              <strong>Esophagitis:</strong>
+              <p>Inflammation of the esophagus, characterized by redness or irritation seen in endoscopic images. It may result from acid reflux, infections, or allergies.</p>
+            </div>
+          </li>
+          <li class="feature-item">
+            <img src="/images/normal-cecum.jpg" alt="Normal Cecum">
+            <div>
+              <strong>Normal Cecum:</strong>
+              <p>Represents normal findings in the cecum, the beginning of the large intestine. Observations ensure no abnormalities such as polyps or inflammation are present.</p>
+            </div>
+          </li>
+          <li class="feature-item">
+            <img src="/images/normal-pylorus.jpg" alt="Normal Pylorus">
+            <div>
+              <strong>Normal Pylorus:</strong>
+              <p>Depicts a normal pyloric region, which is the opening from the stomach into the duodenum. A healthy pylorus ensures proper digestion and prevents reflux.</p>
+            </div>
+          </li>
+          <li class="feature-item">
+            <img src="/images/normal-z-line.jpg" alt="Normal Z-Line">
+            <div>
+              <strong>Normal Z-Line:</strong>
+              <p>Shows the transition between the esophagus and stomach with no abnormalities. This junction is critical in identifying issues like Barrett's esophagus.</p>
+            </div>
+          </li>
+          <li class="feature-item">
+            <img src="/images/polyps.jpg" alt="Polyps">
+            <div>
+              <strong>Polyps:</strong>
+              <p>Abnormal growths within the GI tract that may require further evaluation or removal. Some polyps are benign, while others can be precancerous.</p>
+            </div>
+          </li>
+          <li class="feature-item">
+            <img src="/images/ulcerative-colitis.jpg" alt="Ulcerative Colitis">
+            <div>
+              <strong>Ulcerative Colitis:</strong>
+              <p>Chronic inflammation of the colon, often visible as ulcers or irregularities in the lining. It can lead to symptoms like abdominal pain and diarrhea.</p>
+            </div>
+          </li>
         </ul>
 
         <p>These classifications aid in early and accurate detection of gastrointestinal anomalies, ensuring timely intervention and improved patient outcomes. Sample images provide visual cues for better understanding and diagnosis.</p>
+      </section>
     </div>
+  </div>
 </body>
 </html>
