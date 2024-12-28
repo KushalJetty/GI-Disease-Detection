@@ -1,6 +1,4 @@
-Here's a full README template for the "GI-Disease-Detection" repository. You can customize it further based on specific project details.
 
-```markdown
 # GI Disease Detection
 
 ## Overview
@@ -101,6 +99,3 @@ For any inquiries, please contact:
 ---
 
 Thank you for checking out the GI Disease Detection project! We hope it serves as a valuable tool for medical professionals.
-```
-
-Feel free to modify any sections to better fit the specifics of your project!
