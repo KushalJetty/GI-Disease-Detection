@@ -135,6 +135,14 @@ def image():
             confidence = prediction[0][predicted_class_index]
             return predicted_class, confidence
 
+         # Generate 10x10 matrix
+        image = cv2.imread(file_path)
+        resized_image = cv2.resize(image, (10, 10))  # Resize to 10x10
+        rgb_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB)
+        normalized_matrix = rgb_image / 255.0  # Normalize
+        rgb_matrix = rgb_image.tolist()
+        normalized_matrix = np.round(normalized_matrix, 2).tolist()  # Round values for better display
+
         predicted_class, confidence = predict_single_image(file_path)
 
         # Map predicted class to labels and treatment
