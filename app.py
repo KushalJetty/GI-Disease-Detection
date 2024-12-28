@@ -110,13 +110,18 @@ def image():
         file_path = os.path.join(dirPath, uploaded_file.filename)
         uploaded_file.save(file_path)
         
-        # RGB Matrix
+        # Read the image and convert to RGB
         image = cv2.imread(file_path)
         rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        rgb_matrix = rgb_image.tolist()  # Convert to list for rendering in HTML
-
+        
+        # Extract Red, Green, and Blue channels
+        red_matrix = rgb_image[:, :, 0].tolist()  # Red channel
+        green_matrix = rgb_image[:, :, 1].tolist()  # Green channel
+        blue_matrix = rgb_image[:, :, 2].tolist()  # Blue channel
+        
         # Normalize the RGB matrix
         normalization_matrix = (rgb_image / 255.0).tolist()  # Normalize and convert to list
+
 
         # Preprocess for model input
         def preprocess_input_image(path):
@@ -239,7 +244,9 @@ def image():
             GraphDisplay=url_for('static', filename='images/class_probabilities.png'),
             predicted_class=predicted_class,
             class_probabilities=class_probabilities,
-            rgb_matrix=rgb_matrix,
+            red_matrix=red_matrix, 
+            green_matrix=green_matrix, 
+            blue_matrix=blue_matrix, 
             normalization_matrix=normalization_matrix
         )
     return render_template('userlog.html')
