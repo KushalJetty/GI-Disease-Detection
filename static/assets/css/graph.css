@@ -1,0 +1,33 @@
+@import 'main.css'; /* Import shared styles */
+
+.graph-section {
+  padding: 3rem 0; /* Add padding around the section */
+  margin: 2rem auto;
+  max-width: 1000px; /* Adjust as needed for responsiveness */
+}
+
+.graph-section h2 {
+  font-size: 1.8rem; /* Adjust heading size as needed */
+  margin-bottom: 1.5rem;
+  text-align: center; /* Center the heading */
+}
+
+.graph-item {
+  margin-bottom: 2rem; /* Space between graph items */
+  display: flex; /* Arrange elements horizontally */
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center elements horizontally */
+}
+
+.graph-item h3 {
+  font-size: 1.2rem; /* Adjust title size as needed */
+  margin-bottom: 1rem;
+  text-align: center; /* Center the title */
+}
+
+.graph-item img {
+  width: 70%; /* Adjust image width as needed */
+  max-width: 500px; /* Set a max-width to prevent overflow on smaller screens */
+  border-radius: 5px; /* Rounded corners for a cleaner look */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}

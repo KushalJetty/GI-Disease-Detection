@@ -1,0 +1,73 @@
+@import 'main.css'; /* Import shared styles */
+
+.results-container {
+  display: flex; /* Arrange result cards horizontally */
+  flex-wrap: wrap; /* Allow cards to wrap onto multiple lines */
+  justify-content: space-between; /* Distribute cards evenly */
+  padding: 2rem; /* Add some padding around the container */
+}
+
+.result-card {
+  width: 30%; /* Adjust width as needed for your layout */
+  margin-bottom: 2rem; /* Space between cards */
+  padding: 1rem; /* Padding for content within the card */
+  border: 1px solid #ddd; /* Light border for separation */
+  border-radius: 5px; /* Rounded corners for a cleaner look */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  background-color: #fff; /* Light background for better readability */
+}
+
+.result-card h2 {
+  font-size: 1.2rem; /* Adjust heading size as needed */
+  margin-bottom: 1rem; /* Space between heading and content */
+}
+
+.result-card pre {
+  white-space: pre-wrap; /* Preserve whitespace for matrix formatting */
+  background-color: #eee; /* Light background for code */
+  padding: 1rem; /* Padding for code content */
+  border-radius: 5px; /* Rounded corners for code blocks */
+  font-family: monospace; /* Use a monospace font for code */
+}
+
+.class-probabilities-card {
+  width: 100%; /* Full width for the table */
+}
+
+.class-probabilities-card table {
+  width: 100%; /* Full table width */
+  border-collapse: collapse; /* Remove borders between cells */
+}
+
+.class-probabilities-card thead th,
+.class-probabilities-card tbody td {
+  padding: 0.5rem; /* Padding for table cells */
+  border: 1px solid #ddd; /* Light borders for table structure */
+  text-align: left; /* Left-align content within cells */
+}
+
+.class-probabilities-card thead th {
+  background-color: #eee; /* Light background for table header */
+}
+
+.result-main {
+  width: 100%; /* Full width for the result section */
+  padding: 1rem; /* Padding for content within the section */
+  border: 1px solid #ddd; /* Light border for separation */
+  border-radius: 5px; /* Rounded corners for a cleaner look */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  background-color: #fff; /* Light background for better readability */
+}
+
+.result-main p {
+  margin-bottom: 0.5rem; /* Space between paragraphs */
+}
+
+.result-main ul {
+  list-style: none; /* Remove default list style */
+  padding: 0; /* Remove default padding */
+}
+
+.result-main ul li {
+  margin-bottom: 0.5rem; /* Space between list items */
+}

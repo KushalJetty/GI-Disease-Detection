@@ -1,0 +1,65 @@
+.main-header {
+    display: flex;
+    align-items: center;
+    padding: 0rem; /* Increased vertical padding */
+    justify-content: space-between; /* This is essential */
+    background-color: #e0f2f7;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    height: 80px; /* Set a fixed height */
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.main-nav {
+    margin-left: auto; /* This pushes the nav to the right */
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-link {
+    display: inline-block; /* Change to inline-block */
+    padding: 0.6rem 1.2rem; /* Adjust padding */
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease, transform 0.2s ease, background-color 0.3s ease; /* Add transition for background */
+    margin: 0 0.5rem;
+    font-size: 1rem; /* Increased font size */
+    font-weight: 600; /* Bold font weight */
+    border-radius: 5px; /* Rounded background */
+}
+
+.nav-link:hover {
+    color: #007bff;
+    transform: scale(1.05);
+    background-color: rgba(0, 123, 255, 0.1); /* Light blue background on hover */
+}
+.nav-link.active {
+    font-weight: 700;
+    color: #0056b3;
+    background-color: rgba(0, 86, 179, 0.15); /* Slightly darker blue background for active */
+}
+
+.header-logo {
+    font-weight: 700; /* Adjust weight as needed */
+    font-size: 1.8rem;
+    color: #007bff;
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif; /* Example font - try others! */
+    /* OR */
+    /* font-family: 'Poppins', sans-serif; */
+    /* OR */
+    /* font-family: 'Lato', sans-serif; */
+    letter-spacing: 0.1rem; /* Adjust letter-spacing as needed */
+}
