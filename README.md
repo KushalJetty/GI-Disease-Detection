@@ -1,101 +1,87 @@
-
 # GI Disease Detection
 
-## Overview
-
-The GI Disease Detection project aims to develop a web-based application that utilizes image processing and machine learning techniques to detect and classify gastrointestinal (GI) diseases from medical images. This tool is designed to assist medical professionals in the early diagnosis of GI diseases, improving patient outcomes.
-
-## Table of Contents
-
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Dataset](#dataset)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+AI-powered web application for detecting gastrointestinal diseases from medical images.
 
 ## Features
 
-- **Image Classification**: Detect and classify various GI diseases using advanced machine learning algorithms.
-- **Web Application**: A user-friendly interface for uploading images and receiving classification results.
-- **Database Integration**: Store user information and classification results securely.
+- Image upload for gastrointestinal scan analysis
+- Deep learning model for disease detection 
+- Confidence scores and predictions
+- Treatment recommendations
+- User authentication and management
 
-## Technologies Used
+## Requirements
 
-- **Python**: Primary programming language for the application.
-- **Flask**: Web framework for building the web application.
-- **Jupyter Notebook**: For data analysis and model training.
-- **Deep Learning**: Techniques for image classification.
-- **Image Processing**: Libraries like OpenCV or PIL for handling medical images.
+### System
+- Windows 10, macOS, or Ubuntu
+- Minimum 4 GB RAM, 1 GHz processor
+
+### Software
+- Python 3.x
+- Required libraries:
+```bash
+pip install numpy opencv-python tensorflow flask matplotlib
+```
+- SQLite for user data management
 
 ## Installation
 
-To set up the project locally, follow these steps:
-
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/KushalJetty/GI-Disease-Detection.git
-   cd GI-Disease-Detection
-   ```
+```bash
+git clone https://github.com/KushalJetty/GI-Disease-Detection.git
+cd GI-Disease-Detection
+```
 
-2. Create a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   ```
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-3. Install the required packages:
-   ```bash
-   pip install -r requirements.txt
-   ```
+3. Set up SQLite (optional)
+
+4. Configure environment variables if needed (create `.env` file)
 
 ## Usage
 
-1. Start the Flask application:
-   ```bash
-   python app.py
-   ```
+1. Start the application:
+```bash
+python app.py
+```
 
-2. Open your web browser and navigate to `http://127.0.0.1:5000`.
+2. Access via `http://localhost:5000/`
 
-3. Upload a medical image to classify it.
+3. Upload images and view predictions
+
+## Project Structure
+```
+gi-disease-detection/
+├── static/           # Static files (images, CSS)
+├── templates/        # HTML templates
+├── app.py           # Main application
+├── requirements.txt # Dependencies
+├── README.md        # Documentation
+└── model.h5         # Trained model
+```
 
 ## Dataset
 
-The dataset used for training the model consists of labeled images of various GI diseases. Ensure you have the appropriate permissions and licenses to use the dataset.
+Uses Kvasir Dataset v2 containing gastrointestinal tract images. Available on Kaggle.
 
 ## Contributing
 
-Contributions are welcome! Please follow these steps:
+1. Fork the repository
+2. Create feature branch:
+```bash
+git checkout -b feature/your-feature-name
+```
 
-1. Fork the repository.
-2. Create a new branch:
-   ```bash
-   git checkout -b feature/YourFeature
-   ```
-3. Make your changes and commit them:
-   ```bash
-   git commit -m "Add your feature"
-   ```
-4. Push to the branch:
-   ```bash
-   git push origin feature/YourFeature
-   ```
-5. Create a pull request.
+3. Commit changes:
+```bash
+git commit -m "Add your message"
+```
+
+4. Push and open pull request
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-For any inquiries, please contact:
-
-- **Your Name**: [Your Email]
-- **GitHub**: [Your GitHub Profile Link]
-
----
-
-Thank you for checking out the GI Disease Detection project! We hope it serves as a valuable tool for medical professionals.
+MIT License
