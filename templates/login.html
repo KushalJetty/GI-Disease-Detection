@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - GastroScope AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="..\static\assets\css\main.css"> <link rel="stylesheet" href="..\static\assets\css\login.css">
+</head>
+<body>
+  <div id="header-container"></div>
+      <!-- Login Form -->
+      <section id="form1" class="form-section active">
+        <h2>User Login</h2>
+        <form method="post" action="{{ url_for('userlog') }}">
+          {% if msg %}
+          <div class="alert alert-warning alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Warning!</strong> {{msg}}
+          </div>
+          {% endif %}
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter username" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
+          </div>
+          <button type="submit" class="btn btn-default">Login</button>
+          <p>Don't have an account? <a data-value="#form2" onclick="toggleform(event)">Register Now</a></p>
+        </form>
+      </section>
+
+      <!-- Registration Form -->
+      <section id="form2" class="form-section">
+        <h2>User Registration</h2>
+        <form method="post" action="{{ url_for('userreg') }}">
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter username" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Mobile No.:</label>
+            <input type="tel" class="form-control" id="phone" placeholder="Enter mobile number" name="phone" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
+          </div>
+          <button type="submit" class="btn btn-default">Register</button>
+          <p>Already have an account? <a data-value="#form1" onclick="toggleform(event)">Sign in</a></p>
+        </form>
+      </section>
+    </div>
+  </div>
+  <div id="footer-container"></div>
+  <script>
+    function toggleform(e) {
+      var Id = e.target.getAttribute('data-value');
+      let Items = ['#form1', '#form2'];
+      Items.map(function(item) {
+        if (Id === item) {
+          document.querySelector(item).classList.add("active");
+        } else {
+          document.querySelector(item).classList.remove("active");
+        }
+      });
+    }
+  </script>
+      <script>
+        function loadContent(url, targetId) {
+    fetch(url)
+        .then(response => {
+            if (!response.ok) { // Check for errors
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.text();
+        })
+        .then(html => document.getElementById(targetId).innerHTML = html)
+        .catch(error => console.error("Error loading content:", error)); // Handle errors
+}
+loadContent('{{ url_for("header") }}', 'header-container');
+loadContent('{{ url_for("footer") }}', 'footer-container');</script>
+</body>
+</html>

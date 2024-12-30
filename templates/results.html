@@ -1,167 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GastroScope AI - Results</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-color: #ffffff;
-      --text-color: #1a1a2e;
-      --primary-color: #0095c8;
-      --accent-color: #f4a261;
-      --hover-color: #006d8e;
-      --card-bg: #f5f5f5;
-      --result-bg: #e6f7ff;
-      --border-radius: 30px;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: var(--text-color);
-      background-color: var(--bg-color);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .navbar {
-      background: var(--primary-color);
-      padding: 1rem 2.5rem;
-      width: calc(100% - 5rem);
-      border-radius: var(--border-radius);
-      margin: 2rem auto 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .navbar-brand {
-      font-size: 2rem;
-      font-family: 'Bebas Neue', cursive;
-      color: #fff;
-      text-decoration: none;
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-    }
-
-    .nav-link {
-      color: #fff;
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      margin: 0 5px;
-      transition: background 0.3s ease;
-      border-radius: var(--border-radius);
-    }
-
-    .nav-link:hover {
-      background: var(--hover-color);
-    }
-
-    .results-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: center;
-      margin: 2rem 0;
-    }
-
-    .result-card,
-    .result-main,
-    .class-probabilities-card,
-    .graph-display-card {
-      background-color: var(--card-bg);
-      padding: 1.5rem;
-      border-radius: var(--border-radius);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      flex: 1 1 calc(30% - 1rem);
-      max-width: 300px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .result-main {
-      flex: 1 1 calc(50% - 1rem);
-      max-width: 600px;
-      background-color: var(--result-bg);
-    }
-
-    .result-card:hover,
-    .class-probabilities-card:hover,
-    .graph-display-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    .result-card img,
-    .graph-display-card img {
-      width: 100%;
-      border-radius: var(--border-radius);
-      margin-bottom: 1rem;
-    }
-
-    .class-probabilities table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .class-probabilities th,
-    .class-probabilities td {
-      border: 1px solid #ddd;
-      padding: 0.5rem;
-      text-align: center;
-    }
-
-    .class-probabilities th {
-      background-color: var(--primary-color);
-      color: #fff;
-    }
-
-    footer {
-      background: var(--primary-color);
-      color: #fff;
-      text-align: center;
-      padding: 1rem;
-      margin-top: 2rem;
-      border-radius: var(--border-radius);
-    }
-
-    @media (max-width: 768px) {
-      .results-container {
-        flex-direction: column;
-      }
-
-      .result-card,
-      .result-main,
-      .class-probabilities-card,
-      .graph-display-card {
-        max-width: 100%;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results - GastroScope AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="..\static\assets\css\main.css"> <link rel="stylesheet" href="..\static\assets\css\results.css">
 </head>
 <body>
-  <nav class="navbar">
-    <a href="#" class="navbar-brand">GastroScope AI</a>
-    <ul class="nav-links">
-      <li><a href="userlog.html" class="nav-link">Home</a></li>
-      <li><a href="graph.html" class="nav-link">Graph</a></li>
-      <li><a href="/logout" class="nav-link">Logout</a></li>
-    </ul>
-  </nav>
-
+  <div id="header-container"></div>
   <div class="results-container">
     <!-- Selected Image -->
     <div class="result-card">
@@ -220,16 +69,22 @@
       </ul>
       {% endif %}
     </div>
-
-    <!-- Graph -->
-    <div class="graph-display-card">
-      <h2>Class Probability Graph</h2>
-      <img src="{{ GraphDisplay }}" alt="Class Probability Graph">
-    </div>
-  </div>
-
-  <footer>
-    <p>&copy; 2024 GI Disease Detector. All rights reserved.</p>
-  </footer>
-</body>
+</div>
+    <div id="footer-container"></div>
+    <script>
+      function loadContent(url, targetId) {
+  fetch(url)
+      .then(response => {
+          if (!response.ok) { // Check for errors
+              throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.text();
+      })
+      .then(html => document.getElementById(targetId).innerHTML = html)
+      .catch(error => console.error("Error loading content:", error)); // Handle errors
+  }
+  loadContent('{{ url_for("header") }}', 'header-container');
+  loadContent('{{ url_for("footer") }}', 'footer-container');
+  </script>
+  </body>
 </html>
