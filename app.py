@@ -24,9 +24,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 
 # Load your trained model
-model = load_model(r"P:\GI-Disease-Detection\models\finalwithhighaccuracy.h5") 
+model = load_model('model_path')
 # Dataset path
-dataset_path = r"P:\GI-Disease-Detection\kvasir-dataset-v2"# Load class names 
+dataset_path='dataset_path'
+
 class_names = sorted(os.listdir(dataset_path)) 
 
 @app.route('/header')
