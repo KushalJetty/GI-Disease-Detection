@@ -1,57 +1,60 @@
 @import 'main.css'; /* Import shared styles */
 
 .content-container {
-  padding: 3rem 0;
-  max-width: 1000px; /* Adjust as needed */
+  padding: 3rem; /* Added padding */
+  max-width: 1000px;
   margin: 2rem auto;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
+  border-radius: 10px; /* Added border-radius */
 }
 
 .feature-section {
-  text-align: center; /* Center the content within the section */
+  text-align: center;
 }
 
 .feature-section h1 {
-  font-size: 2.2rem; /* Slightly smaller heading size */
+  font-size: 2.2rem;
   margin-bottom: 1.5rem;
 }
 
 .feature-section p {
   margin-bottom: 2rem;
-  line-height: 1.7; /* Improved line height for readability */
+  line-height: 1.7;
 }
 
 .feature-list {
-  display: flex; /* Arrange list items horizontally */
-  flex-wrap: wrap; /* Allow items to wrap onto multiple lines */
-  justify-content: space-around; /* Distribute items evenly */
-  margin: 0 auto; /* Center the list horizontally */
-  list-style: none; /* Remove default list style */
-  padding: 0; /* Remove default padding */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 2rem;
+  list-style: none; /* Remove the default bullet points */
 }
 
 .feature-item {
-  width: 30%; /* Adjust width as needed for your layout */
-  margin-bottom: 2rem; /* Space between list items */
-  text-align: left; /* Align text left within each item */
+  text-align: center;
 }
 
 .feature-item img {
-  width: 100%; /* Images span the full width of the item */
-  margin-bottom: 1rem; /* Space between image and text */
+  max-width: 100%;
+  margin-bottom: 1rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
+  padding: 1rem; 
+  border-radius: 10px; /* Added border-radius */
 }
 
 .feature-item div {
-  padding: 1rem; /* Add some padding inside the text area */
-  border-radius: 5px; /* Rounded corners for a softer look */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  background-color: #fff; /* Light background for text */
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
+  background-color: #fff;
 }
 
 .feature-item strong {
-  font-weight: bold; /* Emphasize class names */
+  font-weight: bold;
 }
 
 .feature-item p {
-  font-size: 0.9rem; /* Slightly smaller paragraph size */
+  font-size: 0.9rem;
   color: #555;
 }

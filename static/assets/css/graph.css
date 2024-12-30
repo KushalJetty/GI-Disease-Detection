@@ -1,9 +1,13 @@
 @import 'main.css'; /* Import shared styles */
 
 .graph-section {
-  padding: 3rem 0; /* Add padding around the section */
-  margin: 2rem auto;
-  max-width: 1000px; /* Adjust as needed for responsiveness */
+  padding: 3rem;
+  max-width: 1000px; /* Increased max-width */
+  margin: 2rem auto; /* Center the container */
+  line-height: 1.7;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .graph-section h2 {
@@ -26,8 +30,8 @@
 }
 
 .graph-item img {
-  width: 70%; /* Adjust image width as needed */
-  max-width: 500px; /* Set a max-width to prevent overflow on smaller screens */
-  border-radius: 5px; /* Rounded corners for a cleaner look */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  width: 80%; /* Increased width for larger images */
+  max-width: 800px; /* Increased max-width for larger images */
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
