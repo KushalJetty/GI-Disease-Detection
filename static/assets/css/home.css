@@ -1,0 +1,210 @@
+@import 'main.css';
+
+.content-container {
+  padding: 4rem 0; /* Increased padding */
+  max-width: 600px; /* Adjusted max-width for a more contained look */
+  margin: 2rem auto;
+}
+
+.image-select-section {
+  background-color: #f5f5f5;
+  border-radius: 8px; /* Slightly more rounded corners */
+  padding: 3rem; /* Increased padding */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added a subtle shadow */
+}
+
+.image-select-section h2 {
+  font-size: 2rem; /* Increased font size */
+  margin-bottom: 2rem; /* Increased margin */
+  text-align: center;
+}
+
+.alert {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+.alert-warning {
+    color: #856404;
+    background-color: #fff9e6;
+    border-color: #ffeeba;
+}
+
+.close {
+    float: right;
+    font-size: 1.2rem;
+    font-weight: bold;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: 0.5;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.file-upload-wrapper {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    display: block; /* Important: Use block display */
+}
+
+#file-label {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    padding: 1.2rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 1.1rem;
+    font-weight: 500;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease; /* Remove transform from here */
+    will-change: transform; /* This is the key! */
+}
+
+
+#file-label::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-upload'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'%3E%3C/path%3E%3Cpolyline points='17 8 12 3 7 8'%3E%3C/polyline%3E%3Cline x1='12' y1='3' x2='12' y2='15'%3E%3C/line%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    flex-shrink: 0;
+}
+#file {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+#file::-webkit-file-upload-button {
+    display: none; /* Use display: none instead of visibility: hidden */
+}
+#file:hover + .file-text {
+    background-color: #0069d9;
+    transform: translateY(-2px); /* More pronounced lift */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
+}
+.file-text {
+    pointer-events: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 10px; /* Keep margin */
+}
+
+#file::before {
+    content: attr(data-text);
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 0.8rem 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid #007bff;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center; /* Center the text inside the button */
+    width: 100%; /* Make the button take full width */
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+#file:hover::before {
+    background-color: #0069d9;
+    border-color: #0062cc;
+    transform: translateY(-1px);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.25);
+}
+#file-label::before:hover {
+    transform: translateX(-5px); /* Adjust horizontal position on hover */
+  }
+#file:active + .file-text {
+    background-color: #0056b3;
+    transform: translateY(1px); /* More pronounced press */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Less pronounced shadow on press */
+}
+
+#file:active::before {
+    background-color: #0056b3;
+    border-color: #004ea0;
+    transform: translateY(1px);
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+#file::after {
+    display: none; /* Remove the ::after element */
+}
+
+#file-label:hover {
+    background-color: #0069d9;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px); /* Apply transform here */
+}
+
+#file-label:active {
+    background-color: #0056b3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(1px); /* Apply transform here */
+}
+
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 1.2rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 1.5rem;
+}
+
+.btn:hover {
+    background-color: #0069d9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+    background-color: #0056b3;
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#file-label:hover {
+    background-color: #0069d9;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px); /* Apply transform here */
+}
+
+#file-label:active {
+    background-color: #0056b3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(1px); /* Apply transform here */
+}
+#file-label:hover::before,
+#file-label:hover .file-text { 
+  transform: translateY(2px); /* Move icon and text up to compensate for button lift */
+}

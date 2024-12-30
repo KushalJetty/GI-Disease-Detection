@@ -19,6 +19,7 @@ from keras.preprocessing.image import img_to_array, array_to_img
 from keras.preprocessing import image
 import sqlite3
 import shutil
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -28,12 +29,18 @@ model = load_model('model_path')
 dataset_path='dataset_path'
 # Load class names 
 class_names = sorted(os.listdir(dataset_path)) 
-# Background image
-bg_img = "image_url"
+
+@app.route('/header')
+def header():
+    return render_template('header.html')
+
+@app.route('/footer')
+def footer():
+    return render_template('footer.html')
 
 @app.route('/')
 def index():
-    return render_template('home.html',bg_img=bg_img)
+    return render_template('index.html')
 
 @app.route('/about')
 def about():
@@ -47,44 +54,69 @@ def features():
 @app.route('/userlog', methods=['GET', 'POST'])
 def userlog():
     if request.method == 'POST':
+        name = request.form['name']
+        password = request.form['password']
 
         connection = sqlite3.connect('user_data.db')
         cursor = connection.cursor()
 
-        name = request.form['name']
-        password = request.form['password']
+        cursor.execute("SELECT name, password FROM user WHERE name = ?", (name,))
+        result = cursor.fetchone()
 
-        query = "SELECT name, password FROM user WHERE name = '"+name+"' AND password= '"+password+"'"
-        cursor.execute(query)
-
-        result = cursor.fetchall()
-
-        if len(result) == 0:
-            return render_template('index.html', msg='Sorry, Incorrect Credentials Provided,  Try Again')
+        if result is None:
+            return render_template('login.html', msg='User not found.')
         else:
-            return render_template('userlog.html')
+            stored_hash = result[1]
+            if check_password_hash(stored_hash, password):
+                # Successful login - You might want to store user session information here
+                return render_template('home.html')
+            else:
+                return render_template('login.html', msg='Incorrect password.')
 
-    return render_template('index.html')
+        connection.close()
 
-@app.route('/userlog.html')
-def userlogg():
-    return render_template('userlog.html')
+    return render_template('login.html')
 
 @app.route('/userreg', methods=['GET', 'POST'])
 def userreg():
     if request.method == 'POST':
-        # Handle user registration
-        return render_template('index.html', msg='Successfully Registered')
-    return render_template('index.html')
+        name = request.form['name']
+        email = request.form['email']
+        phone = request.form['phone']
+        password = request.form['password']
 
-@app.route('/graph.html', methods=['GET', 'POST'])
+        # Hash the password for security
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+
+        # Connect to the database
+        connection = sqlite3.connect('user_data.db')
+        cursor = connection.cursor()
+
+        # Insert user data into the database
+        try:
+            cursor.execute("""
+                INSERT INTO user (name, email, phone, password)
+                VALUES (?, ?, ?, ?)
+            """, (name, email, phone, hashed_password))
+            connection.commit()
+            return render_template('login.html', msg='Registration successful!')
+        except sqlite3.Error as e:
+            connection.rollback()
+            return render_template('login.html', msg=f'Error during registration: {e}')
+        finally:
+            connection.close()
+
+    # Activate registration form section in login.html on GET requests
+    return render_template('login.html', active_form='form2')
+
+@app.route('/graph', methods=['GET', 'POST'])
 def graph():
     
     images = ['http://127.0.0.1:5000/static/accuracy_plot.png',
              'http://127.0.0.1:5000/static/loss_plot.png',
               'http://127.0.0.1:5000/static/confusion_matrix.png']
     content=['Accuracy Graph',
-             "Loss Graph"
+             "Loss Graph",
              'Confusion Matrix']
 
             
