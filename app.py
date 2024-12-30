@@ -27,7 +27,7 @@ app = Flask(__name__)
 model = load_model('model_path')
 # Dataset path
 dataset_path='dataset_path'
-
+# Load class names 
 class_names = sorted(os.listdir(dataset_path)) 
 
 @app.route('/header')
@@ -109,14 +109,14 @@ def userreg():
     # Activate registration form section in login.html on GET requests
     return render_template('login.html', active_form='form2')
 
-@app.route('/graph.html', methods=['GET', 'POST'])
+@app.route('/graph', methods=['GET', 'POST'])
 def graph():
     
     images = ['http://127.0.0.1:5000/static/accuracy_plot.png',
              'http://127.0.0.1:5000/static/loss_plot.png',
               'http://127.0.0.1:5000/static/confusion_matrix.png']
     content=['Accuracy Graph',
-             "Loss Graph"
+             "Loss Graph",
              'Confusion Matrix']
 
             
