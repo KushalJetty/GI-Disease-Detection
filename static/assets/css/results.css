@@ -1,3 +1,5 @@
+@import 'main.css';
+
 /* Result Cards */
 .result-card, .class-probabilities-card, .result-main {
   background-color: #f8f8f8;
