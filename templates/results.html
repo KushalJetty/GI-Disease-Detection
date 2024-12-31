@@ -7,86 +7,83 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="..\static\assets\css\main.css"> <link rel="stylesheet" href="..\static\assets\css\results.css">
+    <link rel="stylesheet" href="..\static\assets\css\main.css">
+    <link rel="stylesheet" href="..\static\assets\css\results.css">
 </head>
 <body>
-  <div id="header-container"></div>
-  <main class="main-content">
-  <div class="results-container">
-    <!-- Selected Image -->
-    <div class="result-card">
-      <h2>Selected Image</h2>
-      {% if (ImageDisplay) %}
-      <img src="{{ImageDisplay}}" alt="Selected Image">
-      {% endif %}
-    </div>
-
-    <!-- RGB Matrix -->
-    <div class="result-card">
-      <h2>RGB Matrix</h2>
-      <pre>{{ rgb_matrix }}</pre>
-    </div>
-
-    <!-- Normalization Matrix -->
-    <div class="result-card">
-      <h2>Normalization Matrix</h2>
-      <pre>{{ normalization_matrix }}</pre>
-    </div>
-
-    <!-- Class Probabilities -->
-    <div class="class-probabilities-card">
-      <h2>Class Probabilities</h2>
-      <div class="class-probabilities">
-        <table>
-          <thead>
-            <tr>
-              <th>Class</th>
-              <th>Probability</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for class_name, prob in class_probabilities %}
-            <tr>
-              <td>{{ class_name }}</td>
-              <td>{{ prob | round(4) }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+    <div id="header-container"></div>
+    <main class="main-content">
+      <div class="results-container">
+          <div class="result-card">
+              <h2>Selected Image</h2>
+              {% if (ImageDisplay) %}
+              <img src="{{ImageDisplay}}" alt="Selected Image">
+              {% endif %}
+          </div>
+  
+          <div class="result-card">
+              <h2>RGB Matrix</h2>
+              <div class="image-container">
+                  <img src="{{ url_for('static', filename='red.png') }}" alt="Red">
+                  <img src="{{ url_for('static', filename='green.png') }}" alt="Green">
+                  <img src="{{ url_for('static', filename='blue.png') }}" alt="Blue">
+              </div>
+          </div>
+  
+          <div class="results-row">
+              <div class="class-probabilities-card">
+                  <h2>Class Probabilities</h2>
+                  <div class="class-probabilities">
+                      <table>
+                          <thead>
+                              <tr>
+                                  <th>Class</th>
+                                  <th>Probability</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              {% for class_name, prob in class_probabilities %}
+                              <tr>
+                                  <td>{{ class_name }}</td>
+                                  <td>{{ prob | round(4) }}</td>
+                              </tr>
+                              {% endfor %}
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+  
+              <div class="result-main">
+                  <h2>Result</h2>
+                  {% if (status) %}
+                  <p><b>Status:</b> {{status}}</p>
+                  <p><b>Accuracy:</b> {{accuracy}}</p>
+                  <p><b>Treatment:</b></p>
+                  <ul>
+                      {% for Treatment in Treatment1 %}
+                      <li>{{Treatment}}</li>
+                      {% endfor %}
+                  </ul>
+                  {% endif %}
+              </div>
+          </div>
       </div>
-    </div>
-
-    <!-- Result -->
-    <div class="result-main">
-      <h2>Result</h2>
-      {% if (status) %}
-      <p><b>Status:</b> {{status}}</p>
-      <p><b>Accuracy:</b> {{accuracy}}</p>
-      <p><b>Treatment:</b></p>
-      <ul>
-        {% for Treatment in Treatment1 %}
-        <li>{{Treatment}}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-    </div>
-</div>
-</main>
+  </main>
     <div id="footer-container"></div>
     <script>
-      function loadContent(url, targetId) {
-  fetch(url)
-      .then(response => {
-          if (!response.ok) { // Check for errors
-              throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.text();
-      })
-      .then(html => document.getElementById(targetId).innerHTML = html)
-      .catch(error => console.error("Error loading content:", error)); // Handle errors
-  }
-  loadContent('{{ url_for("header") }}', 'header-container');
-  loadContent('{{ url_for("footer") }}', 'footer-container');
-  </script>
-  </body>
+        function loadContent(url, targetId) {
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) { // Check for errors
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(html => document.getElementById(targetId).innerHTML = html)
+                .catch(error => console.error("Error loading content:", error)); // Handle errors
+        }
+        loadContent('{{ url_for("header") }}', 'header-container');
+        loadContent('{{ url_for("footer") }}', 'footer-container');
+    </script>
+</body>
 </html>
