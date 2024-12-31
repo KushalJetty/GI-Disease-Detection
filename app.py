@@ -20,13 +20,14 @@ from keras.preprocessing import image
 import sqlite3
 import shutil
 from werkzeug.security import generate_password_hash, check_password_hash
+from matplotlib.table import Table
 
 app = Flask(__name__)
 
 # Load your trained model
-model = load_model('model_path')
+model = load_model(r'model_path')
 # Dataset path
-dataset_path='dataset_path'
+dataset_path=r'dataset_path'
 # Load class names 
 class_names = sorted(os.listdir(dataset_path)) 
 
@@ -141,20 +142,40 @@ def image():
         
         file_path = os.path.join(dirPath, uploaded_file.filename)
         uploaded_file.save(file_path)
-        
+        def plot_matrix(matrix, title, color):
+            fig, ax = plt.subplots()
+            ax.axis('off')
+            tb = Table(ax, bbox=[0, 0, 1, 1])
+            n_rows, n_cols = matrix.shape  # For single channel
+
+            width, height = 1.0 / n_cols, 1.0 / n_rows
+            for i in range(n_rows):
+                for j in range(n_cols):
+                    # Format the channel value as a string
+                    value = matrix[i, j]
+                    tb.add_cell(i, j, width, height, text=str(value),
+                                loc='center', facecolor=color)
+            rgb_path= os.path.join(dirPath, f'{title}.png')
+            ax.add_table(tb)
+            plt.title(title)
+            plt.savefig(rgb_path)
+            plt.close()
+            
         # Read the image and convert to RGB
         image = cv2.imread(file_path)
         rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        resized_image = cv2.resize(rgb_image, (5, 5))
         
-        # Extract Red, Green, and Blue channels
-        red_matrix = rgb_image[:, :, 0].tolist()  # Red channel
-        green_matrix = rgb_image[:, :, 1].tolist()  # Green channel
-        blue_matrix = rgb_image[:, :, 2].tolist()  # Blue channel
+        # Extract individual color channels
+        red_channel = resized_image[:, :, 0]
+        green_channel = resized_image[:, :, 1]
+        blue_channel = resized_image[:, :, 2]
         
-        # Normalize the RGB matrix
-        normalization_matrix = (rgb_image / 255.0).tolist()  # Normalize and convert to list
-
-
+        # Plot the individual matrices
+        plot_matrix(red_channel, "RedChannel(5x5)", "#FF0000")
+        plot_matrix(green_channel, "GreenChannel(5x5)", "#00FF00")
+        plot_matrix(blue_channel, "BlueChannel(5x5)", "#0000FF")
+        
         # Preprocess for model input
         def preprocess_input_image(path):
             img = load_img(path, target_size=(224, 224))
@@ -264,8 +285,8 @@ def image():
         plt.tight_layout()
         plt.savefig(graph_path)  # Save the graph in static/images
         plt.close()
+        
         # Render results
-         # Render results
         return render_template(
             'results.html',
             status=predicted_class,
@@ -276,11 +297,11 @@ def image():
             GraphDisplay=url_for('static', filename='images/class_probabilities.png'),
             predicted_class=predicted_class,
             class_probabilities=class_probabilities,
-            red_matrix=red_matrix, 
-            green_matrix=green_matrix, 
-            blue_matrix=blue_matrix, 
-            normalization_matrix=normalization_matrix
+            red_matrix=url_for('static', filename='images/RedChannel(5x5).png'),
+            green_matrix=url_for('static', filename='images/GreenChannel(5x5).png'),
+            blue_matrix=url_for('static', filename='images/BlueChannel(5x5).png')
         )
+
     return render_template('userlog.html')
 
 if __name__ == "__main__":
