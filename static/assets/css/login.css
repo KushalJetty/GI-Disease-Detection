@@ -1,0 +1,139 @@
+@import 'main.css';
+
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 50px);
+    padding: 20px;
+    width: 100%;
+}
+
+.hero-content {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #212529;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: bold;
+    letter-spacing: 0.05rem;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: .15em solid orange;
+}
+
+.hero-content p {
+    font-size: 1.4rem;
+    color: #495057;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+    max-width: 900px;
+}
+
+.form-section {
+    background-color: #fff; /* Solid white background */
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 400px; /* Adjusted max-width */
+    width: 90%;
+    margin: 2rem auto;
+    display: none;
+}
+
+.form-section.active {
+    display: block;
+}
+
+.form-section h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem; /* Increased margin */
+    color: #333; /* Darker heading color */
+    font-weight: 600; /* Slightly bolder */
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc; /* Light gray border for inputs */
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    color: #333;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; /* Smooth transitions */
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #80bdff; /* Blue border on focus */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Blue shadow on focus */
+}
+
+.btn {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    border-radius: 5px; /* Slightly more rounded */
+}
+
+.form-section p {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #777; /* Slightly lighter text color */
+}
+
+.form-section a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.form-section a:hover {
+    text-decoration: underline;
+}
+
+.alert {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid transparent;
+    border-radius: 4px; /* Slightly more rounded */
+}
+
+.alert-warning {
+    color: #856404;
+    background-color: #fff9e6;
+    border-color: #ffeeba;
+}
+
+.close {
+    float: right;
+    font-size: 1.2rem;
+    font-weight: bold;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: 0.5;
+    text-decoration: none;
+    cursor: pointer;
+}

@@ -19,21 +19,29 @@ from keras.preprocessing.image import img_to_array, array_to_img
 from keras.preprocessing import image
 import sqlite3
 import shutil
+from werkzeug.security import generate_password_hash, check_password_hash
+from matplotlib.table import Table
 
 app = Flask(__name__)
 
 # Load your trained model
-model = load_model('model_path')
+model = load_model(r'model_path')
 # Dataset path
-dataset_path='dataset_path'
+dataset_path=r'dataset_path'
 # Load class names 
 class_names = sorted(os.listdir(dataset_path)) 
-# Background image
-bg_img = "image_url"
+
+@app.route('/header')
+def header():
+    return render_template('header.html')
+
+@app.route('/footer')
+def footer():
+    return render_template('footer.html')
 
 @app.route('/')
 def index():
-    return render_template('home.html',bg_img=bg_img)
+    return render_template('index.html')
 
 @app.route('/about')
 def about():
@@ -47,44 +55,69 @@ def features():
 @app.route('/userlog', methods=['GET', 'POST'])
 def userlog():
     if request.method == 'POST':
+        name = request.form['name']
+        password = request.form['password']
 
         connection = sqlite3.connect('user_data.db')
         cursor = connection.cursor()
 
-        name = request.form['name']
-        password = request.form['password']
+        cursor.execute("SELECT name, password FROM user WHERE name = ?", (name,))
+        result = cursor.fetchone()
 
-        query = "SELECT name, password FROM user WHERE name = '"+name+"' AND password= '"+password+"'"
-        cursor.execute(query)
-
-        result = cursor.fetchall()
-
-        if len(result) == 0:
-            return render_template('index.html', msg='Sorry, Incorrect Credentials Provided,  Try Again')
+        if result is None:
+            return render_template('login.html', msg='User not found.')
         else:
-            return render_template('userlog.html')
+            stored_hash = result[1]
+            if check_password_hash(stored_hash, password):
+                # Successful login - You might want to store user session information here
+                return render_template('home.html')
+            else:
+                return render_template('login.html', msg='Incorrect password.')
 
-    return render_template('index.html')
+        connection.close()
 
-@app.route('/userlog.html')
-def userlogg():
-    return render_template('userlog.html')
+    return render_template('login.html')
 
 @app.route('/userreg', methods=['GET', 'POST'])
 def userreg():
     if request.method == 'POST':
-        # Handle user registration
-        return render_template('index.html', msg='Successfully Registered')
-    return render_template('index.html')
+        name = request.form['name']
+        email = request.form['email']
+        phone = request.form['phone']
+        password = request.form['password']
 
-@app.route('/graph.html', methods=['GET', 'POST'])
+        # Hash the password for security
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+
+        # Connect to the database
+        connection = sqlite3.connect('user_data.db')
+        cursor = connection.cursor()
+
+        # Insert user data into the database
+        try:
+            cursor.execute("""
+                INSERT INTO user (name, email, phone, password)
+                VALUES (?, ?, ?, ?)
+            """, (name, email, phone, hashed_password))
+            connection.commit()
+            return render_template('login.html', msg='Registration successful!')
+        except sqlite3.Error as e:
+            connection.rollback()
+            return render_template('login.html', msg=f'Error during registration: {e}')
+        finally:
+            connection.close()
+
+    # Activate registration form section in login.html on GET requests
+    return render_template('login.html', active_form='form2')
+
+@app.route('/graph', methods=['GET', 'POST'])
 def graph():
     
     images = ['http://127.0.0.1:5000/static/accuracy_plot.png',
              'http://127.0.0.1:5000/static/loss_plot.png',
               'http://127.0.0.1:5000/static/confusion_matrix.png']
     content=['Accuracy Graph',
-             "Loss Graph"
+             "Loss Graph",
              'Confusion Matrix']
 
             
@@ -109,20 +142,40 @@ def image():
         
         file_path = os.path.join(dirPath, uploaded_file.filename)
         uploaded_file.save(file_path)
-        
+        def plot_matrix(matrix, title, color):
+            fig, ax = plt.subplots()
+            ax.axis('off')
+            tb = Table(ax, bbox=[0, 0, 1, 1])
+            n_rows, n_cols = matrix.shape  # For single channel
+
+            width, height = 1.0 / n_cols, 1.0 / n_rows
+            for i in range(n_rows):
+                for j in range(n_cols):
+                    # Format the channel value as a string
+                    value = matrix[i, j]
+                    tb.add_cell(i, j, width, height, text=str(value),
+                                loc='center', facecolor=color)
+            rgb_path= os.path.join(dirPath, f'{title}.png')
+            ax.add_table(tb)
+            plt.title(title)
+            plt.savefig(rgb_path)
+            plt.close()
+            
         # Read the image and convert to RGB
         image = cv2.imread(file_path)
         rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        resized_image = cv2.resize(rgb_image, (5, 5))
         
-        # Extract Red, Green, and Blue channels
-        red_matrix = rgb_image[:, :, 0].tolist()  # Red channel
-        green_matrix = rgb_image[:, :, 1].tolist()  # Green channel
-        blue_matrix = rgb_image[:, :, 2].tolist()  # Blue channel
+        # Extract individual color channels
+        red_channel = resized_image[:, :, 0]
+        green_channel = resized_image[:, :, 1]
+        blue_channel = resized_image[:, :, 2]
         
-        # Normalize the RGB matrix
-        normalization_matrix = (rgb_image / 255.0).tolist()  # Normalize and convert to list
-
-
+        # Plot the individual matrices
+        plot_matrix(red_channel, "RedChannel(5x5)", "#FF0000")
+        plot_matrix(green_channel, "GreenChannel(5x5)", "#00FF00")
+        plot_matrix(blue_channel, "BlueChannel(5x5)", "#0000FF")
+        
         # Preprocess for model input
         def preprocess_input_image(path):
             img = load_img(path, target_size=(224, 224))
@@ -232,8 +285,8 @@ def image():
         plt.tight_layout()
         plt.savefig(graph_path)  # Save the graph in static/images
         plt.close()
+        
         # Render results
-         # Render results
         return render_template(
             'results.html',
             status=predicted_class,
@@ -244,11 +297,11 @@ def image():
             GraphDisplay=url_for('static', filename='images/class_probabilities.png'),
             predicted_class=predicted_class,
             class_probabilities=class_probabilities,
-            red_matrix=red_matrix, 
-            green_matrix=green_matrix, 
-            blue_matrix=blue_matrix, 
-            normalization_matrix=normalization_matrix
+            red_matrix=url_for('static', filename='images/RedChannel(5x5).png'),
+            green_matrix=url_for('static', filename='images/GreenChannel(5x5).png'),
+            blue_matrix=url_for('static', filename='images/BlueChannel(5x5).png')
         )
+
     return render_template('userlog.html')
 
 if __name__ == "__main__":

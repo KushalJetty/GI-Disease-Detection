@@ -1,0 +1,23 @@
+@import 'main.css';
+
+.content-container {
+    padding: 3rem; /* Add padding around the content */
+    max-width: 900px;
+    margin: 2rem auto;
+    line-height: 1.7;
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly less transparent */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.content-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: var(--secondary-color);
+}
+
+.content-container p {
+    margin-bottom: 1rem;
+    color: #555;
+}
