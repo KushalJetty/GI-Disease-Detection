@@ -7,192 +7,83 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="..\static\assets\css\main.css"> <link rel="stylesheet" href="..\static\assets\css\results.css">
+    <link rel="stylesheet" href="..\static\assets\css\main.css">
+    <link rel="stylesheet" href="..\static\assets\css\results.css">
 </head>
 <body>
-  <style>
-  .results-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    margin: 20px;
-  }
-
-  .rgb-matrices {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .result-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 300px;
-  }
-
-  .result-card img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-
-  h2 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  /* Flex layout to display class probabilities and graph side by side */
-/* Align the Result Card */
-.result-card {
-  margin-bottom: 20px;
-}
-
-/* Row layout for Class Probabilities and Graph */
-.class-probabilities-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;  /* Space between table and graph */
-}
-
-/* Class Probabilities Card */
-.class-probabilities-card {
-  width: 48%;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.class-probabilities table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.class-probabilities th, .class-probabilities td {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-/* Class Probabilities Graph */
-.class-probabilities-graph {
-  width: 48%;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.class-probabilities-graph img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-}
-
-</style>
-
-  <div id="header-container"></div>
-  <main class="main-content">
-    <div class="results-container">
-      <!-- Selected Image Section -->
-      <div class="result-card">
-        <h2>Selected Image</h2>
-        <img src="{{ ImageDisplay }}" alt="Selected Image">
-
-      </div>
-    
-      <!-- RGB Matrices Section -->
-      <div class="rgb-matrices">
-        <div class="result-card">
-          <h2>Red Matrix</h2>
-          <img src="{{ red_matrix }}" alt="Red Matrix">
-        </div>
-        <div class="result-card">
-          <h2>Green Matrix</h2>
-          <img src="{{ green_matrix }}" alt="Green Matrix">
-        </div>
-        <div class="result-card">
-          <h2>Blue Matrix</h2>
-          <img src="{{ blue_matrix }}" alt="Blue Matrix">
-        </div>
-      </div>
-    </div>
-    
-    <!-- Main result section (Result Card) -->
-    <div class="result-card">
-      <h2>Result</h2>
-      {% if status %}
-        <p><b>Status:</b> {{ status }}</p>
-        <p><b>Accuracy:</b> {{ accuracy }}</p>
-        <p><b>Treatment:</b></p>
-        <ul>
-          {% for treatment in Treatment1 %}
-            <li>{{ treatment }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    </div>
-
-    <!-- Class Probabilities and Graph in a Row -->
-    <div class="class-probabilities-row">
-      
-      <!-- Class Probabilities Table inside a div -->
-      <div class="class-probabilities-card">
-        <h2>Class Probabilities</h2>
-        <div class="class-probabilities">
-          <table>
-            <thead>
-              <tr>
-                <th>Class</th>
-                <th>Probability</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for class_name, prob in class_probabilities %}
-                <tr>
-                  <td>{{ class_name }}</td>
-                  <td>{{ prob | round(4) }}</td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <div id="header-container"></div>
+    <main class="main-content">
+      <div class="results-container">
+          <div class="result-card">
+              <h2>Selected Image</h2>
+              {% if (ImageDisplay) %}
+              <img src="{{ImageDisplay}}" alt="Selected Image">
+              {% endif %}
+          </div>
   
-      <!-- Class Probabilities Graph inside a div -->
-      <div class="class-probabilities-graph">
-        <h2>Class Probabilities Graph</h2>
-        <img src="{{ GraphDisplay }}" alt="Class Probabilities Graph">
+          <div class="result-card">
+              <h2>RGB Matrix</h2>
+              <div class="image-container">
+                  <img src="{{ url_for('static', filename='red.png') }}" alt="Red">
+                  <img src="{{ url_for('static', filename='green.png') }}" alt="Green">
+                  <img src="{{ url_for('static', filename='blue.png') }}" alt="Blue">
+              </div>
+          </div>
+  
+          <div class="results-row">
+              <div class="class-probabilities-card">
+                  <h2>Class Probabilities</h2>
+                  <div class="class-probabilities">
+                      <table>
+                          <thead>
+                              <tr>
+                                  <th>Class</th>
+                                  <th>Probability</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              {% for class_name, prob in class_probabilities %}
+                              <tr>
+                                  <td>{{ class_name }}</td>
+                                  <td>{{ prob | round(4) }}</td>
+                              </tr>
+                              {% endfor %}
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+  
+              <div class="result-main">
+                  <h2>Result</h2>
+                  {% if (status) %}
+                  <p><b>Status:</b> {{status}}</p>
+                  <p><b>Accuracy:</b> {{accuracy}}</p>
+                  <p><b>Treatment:</b></p>
+                  <ul>
+                      {% for Treatment in Treatment1 %}
+                      <li>{{Treatment}}</li>
+                      {% endfor %}
+                  </ul>
+                  {% endif %}
+              </div>
+          </div>
       </div>
-      
-    </div>
-
-
   </main>
     <div id="footer-container"></div>
     <script>
-      function loadContent(url, targetId) {
-  fetch(url)
-      .then(response => {
-          if (!response.ok) { // Check for errors
-              throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.text();
-      })
-      .then(html => document.getElementById(targetId).innerHTML = html)
-      .catch(error => console.error("Error loading content:", error)); // Handle errors
-  }
-  loadContent('{{ url_for("header") }}', 'header-container');
-  loadContent('{{ url_for("footer") }}', 'footer-container');
-  </script>
-  </body>
+        function loadContent(url, targetId) {
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) { // Check for errors
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(html => document.getElementById(targetId).innerHTML = html)
+                .catch(error => console.error("Error loading content:", error)); // Handle errors
+        }
+        loadContent('{{ url_for("header") }}', 'header-container');
+        loadContent('{{ url_for("footer") }}', 'footer-container');
+    </script>
+</body>
 </html>
