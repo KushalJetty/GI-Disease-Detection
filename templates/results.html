@@ -7,68 +7,81 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="..\static\assets\css\main.css">
-    <link rel="stylesheet" href="..\static\assets\css\results.css">
+    <link rel="stylesheet" href="..\static\assets\css\main.css"> 
+    <link rel="stylesheet" href="..\static\assets\css\results.css"> 
 </head>
 <body>
+
     <div id="header-container"></div>
-    <main class="main-content">
-      <div class="results-container">
-          <div class="result-card">
-              <h2>Selected Image</h2>
-              {% if (ImageDisplay) %}
-              <img src="{{ImageDisplay}}" alt="Selected Image">
-              {% endif %}
-          </div>
-  
-          <div class="result-card">
-              <h2>RGB Matrix</h2>
-              <div class="image-container">
-                  <img src="{{ url_for('static', filename='red.png') }}" alt="Red">
-                  <img src="{{ url_for('static', filename='green.png') }}" alt="Green">
-                  <img src="{{ url_for('static', filename='blue.png') }}" alt="Blue">
-              </div>
-          </div>
-  
-          <div class="results-row">
-              <div class="class-probabilities-card">
-                  <h2>Class Probabilities</h2>
-                  <div class="class-probabilities">
-                      <table>
-                          <thead>
-                              <tr>
-                                  <th>Class</th>
-                                  <th>Probability</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              {% for class_name, prob in class_probabilities %}
-                              <tr>
-                                  <td>{{ class_name }}</td>
-                                  <td>{{ prob | round(4) }}</td>
-                              </tr>
-                              {% endfor %}
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
-  
-              <div class="result-main">
-                  <h2>Result</h2>
-                  {% if (status) %}
-                  <p><b>Status:</b> {{status}}</p>
-                  <p><b>Accuracy:</b> {{accuracy}}</p>
-                  <p><b>Treatment:</b></p>
-                  <ul>
-                      {% for Treatment in Treatment1 %}
-                      <li>{{Treatment}}</li>
-                      {% endfor %}
-                  </ul>
-                  {% endif %}
-              </div>
-          </div>
-      </div>
-  </main>
+        <main class="main-content">
+        <div class="results-container">
+            <div class="result-card">
+                <h2>Selected Image</h2>
+                <img src="{{ ImageDisplay }}" alt="Selected Image">
+            </div>
+
+            <div class="rgb-matrices">
+                <div class="result-card">
+                    <h2>Red Matrix</h2>
+                    <img src="{{ red_matrix }}" alt="Red Matrix">
+                </div>
+                <div class="result-card">
+                    <h2>Green Matrix</h2>
+                    <img src="{{ green_matrix }}" alt="Green Matrix">
+                </div>
+                <div class="result-card">
+                    <h2>Blue Matrix</h2>
+                    <img src="{{ blue_matrix }}" alt="Blue Matrix">
+                </div>
+            </div>
+        </div>
+
+        <div class="main-result-card">
+            <h2>Result</h2>
+            {% if status %}
+                <p><b>Status:</b> {{ status }}</p>
+                <p><b>Accuracy:</b> {{ accuracy }}</p>
+                <p><b>Treatment:</b></p>
+                <ul>
+                    {% for treatment in Treatment1 %}
+                        <li>{{ treatment }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div class="class-probabilities-row">
+            <div class="class-probabilities-card">
+                <h2>Class Probabilities</h2>
+                <div class="class-probabilities">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Class</th>
+                                <th>Probability</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for class_name, prob in class_probabilities %}
+                                <tr>
+                                    <td>{{ class_name }}</td>
+                                    <td>{{ prob | round(4) }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="class-probabilities-graph">
+                <h2>Class Probabilities Graph</h2>
+                <img src="{{ GraphDisplay }}" alt="Class Probabilities Graph">
+            </div>
+
+        </div>
+
+
+    </main>
     <div id="footer-container"></div>
     <script>
         function loadContent(url, targetId) {
