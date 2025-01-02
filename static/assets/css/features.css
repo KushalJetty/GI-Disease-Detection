@@ -35,8 +35,9 @@
 }
 
 .feature-item img {
-  max-width: 100%;
+  max-width: 200px;
   margin-bottom: 1rem;
+  object-fit: contain; /* Ensures aspect ratio is maintained */
   background-color: rgba(255, 255, 255, 0.9);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
   padding: 1rem; 
