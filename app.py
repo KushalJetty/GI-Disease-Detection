@@ -12,21 +12,15 @@ from tensorflow.keras.preprocessing.image import load_img
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
 import sqlite3
-from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
 from matplotlib.table import Table
 
 app = Flask(__name__)
 
-# Load the .env file
-load_dotenv()
-
-# Retrieve and normalize paths
-model_path = os.path.normpath(os.getenv("model_path"))
-dataset_path = os.path.normpath(os.getenv("dataset_path"))
-
-# Load model and dataset
-model = load_model(model_path)
+#Load the model
+model = load_model(os.getenv("model_path"))
+# Dataset path
+dataset_path=os.getenv("dataset_path")
 # Load class names 
 class_names = sorted(os.listdir(dataset_path)) 
 
