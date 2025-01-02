@@ -9,49 +9,69 @@
     top: 0;
     height: 80px; /* Set a fixed height */
     z-index: 100;
-}
-
-.header-content {
+    padding-left: 20px;
+    padding-right: 0%;
+  }
+  
+  .logout-icon {
+    fill: rgb(212, 52, 52); /* Set the icon fill color */
+    width: 16px; /* Set the icon width */
+    height: 16px; /* Set the icon height */
+    margin-left: 5px;
+  }
+  
+  .icon-wrapper {
+    transform: translate(-3px, 2px);
+  }
+  
+  .header-content {
     display: flex;
     align-items: center;
-    width: 100%;
-}
-
-.main-nav {
-    margin-left: auto; /* This pushes the nav to the right */
-}
-
-.nav-links {
-    list-style: none;
+    margin-left: 20px;
+    justify-content: flex-start; /* Align logo to the left */
+    width: 100%; /* Ensure it spans the full width */
+  }
+  
+  .main-nav {
+    margin-left: 0; /* Remove left margin */
+  }
+  
+  .nav-links {
     display: flex;
-    padding: 0;
-    margin: 0;
-}
-
-.nav-link {
-    display: inline-block; /* Change to inline-block */
+    align-items: center; /* Align text and icon vertically */
+  }
+  
+  .logout-text {
+    margin-right: 5px;
+    color: rgb(212, 52, 52); /* Adjust margin for spacing */
+  }
+  
+  .nav-link {
+    display: flex; /* Change to inline-block */
     padding: 0.6rem 1.2rem; /* Adjust padding */
     text-decoration: none;
     color: #333;
+    align-items: center;
     transition: color 0.3s ease, transform 0.2s ease, background-color 0.3s ease; /* Add transition for background */
     margin: 0 0.5rem;
     font-size: 1rem; /* Increased font size */
     font-weight: 600; /* Bold font weight */
     border-radius: 5px; /* Rounded background */
-}
-
-.nav-link:hover {
+  }
+  
+  .nav-link:hover {
     color: #007bff;
     transform: scale(1.05);
     background-color: rgba(0, 123, 255, 0.1); /* Light blue background on hover */
-}
-.nav-link.active {
+  }
+  
+  .nav-link.active {
     font-weight: 700;
     color: #0056b3;
     background-color: rgba(0, 86, 179, 0.15); /* Slightly darker blue background for active */
-}
-
-.header-logo {
+  }
+  
+  .header-logo {
     font-weight: 700; /* Adjust weight as needed */
     font-size: 1.8rem;
     color: #007bff;
@@ -62,4 +82,11 @@
     /* OR */
     /* font-family: 'Lato', sans-serif; */
     letter-spacing: 0.1rem; /* Adjust letter-spacing as needed */
-}
+  }
+  
+  body.index-page .logout-text,
+  body.index-page .icon-wrapper,
+  body.login-page .logout-text,
+  body.login-page .icon-wrapper {
+    display: none;
+  }
