@@ -35,6 +35,8 @@ cd GI-Disease-Detection
 2. Install dependencies:
 ```bash
 pip install -r requirements.txt
+pip install python-dotenv
+
 ```
 
 3. Set up SQLite (optional)

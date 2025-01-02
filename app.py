@@ -2,32 +2,31 @@ import os
 import cv2
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 import matplotlib.pyplot as plt
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from keras.preprocessing.image import img_to_array
-import pickle
 from flask import Flask, render_template, url_for, request
 import numpy as np
 from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
 from tensorflow.keras.preprocessing.image import load_img
 from keras.preprocessing.image import load_img
-from keras.preprocessing.image import img_to_array, array_to_img
-from keras.preprocessing import image
+from keras.preprocessing.image import img_to_array
 import sqlite3
-import shutil
+from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
 from matplotlib.table import Table
 
 app = Flask(__name__)
 
-# Load your trained model
-model = load_model(r'model_path')
-# Dataset path
-dataset_path=r'dataset_path'
+# Load the .env file
+load_dotenv()
+
+# Retrieve and normalize paths
+model_path = os.path.normpath(os.getenv("model_path"))
+dataset_path = os.path.normpath(os.getenv("dataset_path"))
+
+# Load model and dataset
+model = load_model(model_path)
 # Load class names 
 class_names = sorted(os.listdir(dataset_path)) 
 
