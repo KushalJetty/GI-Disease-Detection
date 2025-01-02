@@ -18,9 +18,9 @@ from matplotlib.table import Table
 app = Flask(__name__)
 
 #Load the model
-model = load_model(os.getenv("model_path"))
+model = load_model(r'model_path')
 # Dataset path
-dataset_path=os.getenv("dataset_path")
+dataset_path=r'dataset_path'
 # Load class names 
 class_names = sorted(os.listdir(dataset_path)) 
 
