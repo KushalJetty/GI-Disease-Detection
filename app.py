@@ -19,10 +19,21 @@ app = Flask(__name__)
 
 #Load the model
 model = load_model(r'model_path')
+endoscopic_validator = load_model(r'validator_model')
+
 # Dataset path
 dataset_path=r'dataset_path'
 # Load class names 
 class_names = sorted(os.listdir(dataset_path)) 
+
+# Function to validate if the image is an endoscopic image
+def is_valid_endoscopic_image(image_path):
+    img = load_img(image_path, target_size=(224, 224))  # Ensure size matches the model input
+    img_array = img_to_array(img)
+    img_array = np.expand_dims(img_array, axis=0) / 255.0  # Normalize
+
+    prediction = endoscopic_validator.predict(img_array)
+    return prediction[0][0] < 0.5 
 
 @app.route('/header')
 def header():
@@ -131,10 +142,14 @@ def image():
         # Retrieve and save the uploaded file
         uploaded_file = request.files['filename']
         if uploaded_file.filename == '':
-            return render_template('userlog.html', msg="No file selected")
+            return render_template('home.html', msg="No file selected")
         
         file_path = os.path.join(dirPath, uploaded_file.filename)
         uploaded_file.save(file_path)
+        
+        if not is_valid_endoscopic_image(file_path):
+            return render_template('home.html', msg="Invalid image. Please upload an endoscopic image.")
+
         def plot_matrix(matrix, title, color):
             fig, ax = plt.subplots()
             ax.axis('off')
